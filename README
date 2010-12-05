@@ -1,0 +1,114 @@
+JSF Resource Relocator
+======================
+
+This small library aims to allow the relocation of 
+resources provided by component libraries (e.g. PrimeFaces, OpenFaces)
+and own resources (images, css-files) to remote destinations, which
+are optimized for serving such files.
+
+
+
+How to use? 
+
+This is mainly done by doing these steps:
+1. Adding the library jar
+2. Registering with JSF
+3. Registering with the Servlet Container
+4. Configuring the Library
+5. Setting up remote control.
+
+
+
+1. Adding the library jar:
+--------------------------
+Simply add the library as a dependency in maven OR manually drop it into
+the WEB-INF/lib folder of your application.
+
+Maven Dependency Entry:
+<dependency>
+	<groupId>com.dominikdorn</groupId>
+	<artifactId>jsf-resource-relocator</artifactId>
+	<version>0.1</version>
+</dependency>
+
+or download it from 
+http://github.com/domdorn/JSF-Resource-Relocator/downloads
+
+
+
+2. Registering with JSF
+-----------------------
+If JSF 2.0 is already available in your web-application, the library will
+register itself automatically with it. You don't have to do anything here.
+
+3. Registering with the Servlet Container
+-----------------------------------------
+The library has a servlet for remote configuration and triggering a reload
+of the configuration during runtime. If you're not in a Servlet 3.0 
+environment you manually have to map the servlet in your web.xml. 
+
+Such an entry looks like this in your web.xml
+
+<web-app ...>
+... 
+<servlet>
+	<servlet-name>JSF-Resource-Relocator</serlet-name>
+	<servlet-class>TODO</servlet-class>
+</servlet>
+...
+<servlet-mapping>
+	<servlet-name>JSF-Resource-Relocator</servlet-name>
+	<url-pattern>/jsf-resource-relocator</url-pattern>
+</servlet-mapping>
+
+4. Configuration
+----------------
+
+The library looks for a file 
+	/WEB-INF/jsf-resource-relocator.xml
+if this file isn't found during application startup, the 
+library will be disabled. 
+
+The /WEB-INF/jsf-resource-relocator.xml should have the following header
+TODO
+
+which allows your IDE of choice (I personally use IntelliJ Idea) to automatically
+lookup the correct syntax and provide you with autocompletion.
+
+
+5. Setting up remote control/configuration reloading
+----------------------------------------------------
+The library comes with a way to reload and alter its configuration during runtime.
+This comes handy if you're developing the application and want to reload the 
+configuration because you made changes to it or you want to reload it because one
+of the mirrors you defined went offline or online. 
+
+In order to enable remote control you have to make sure that you followed step #3
+and that you've setup a corresponding update section in your jsf-resource-relocator.xml
+file. If this section is missing in your configuration file, the library will disable
+remote configuration for security reasons. 
+
+The update-configuration option looks like this
+
+<relocator>
+....
+<remote-update enabled="true">
+	<user>admin</user>
+	<pass>jsf-resource-relocator</pass>
+</remote-update>
+...
+</relocator>
+
+make sure that you use other credentials than given in this example because the library
+disables remote control if configured with the standard credentials.
+
+
+
+For more information, check out the source at
+http://github.com/domdorn/JSF-Resource-Relocator
+
+and follow me on twitter
+
+http://twitter.com/domdorn
+
+
