@@ -6,7 +6,8 @@ resources provided by component libraries (e.g. PrimeFaces, OpenFaces)
 and own resources (images, css-files) to remote destinations, which
 are optimized for serving such files.
 
-
+In short, this small sentence says it all: 
+"hey, this primefaces jquery thing, load it from the google cdn"
 
 How to use? 
 
