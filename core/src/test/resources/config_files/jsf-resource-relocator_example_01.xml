@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/0.1.xsd"
+        >
+
+    <libraries>
+        <library id="primefaces">
+            <exclude name="jquery/jquery.js"/>
+            <replace name="jquery/lightbox.js" with="res_jquery-lightbox"/>
+        </library>
+        <library id="th">
+
+        </library>
+        <library id="jquery-highcharts">
+
+        </library>
+        <library id="team">
+
+        </library>
+        <library id="jquery">
+            <resource id="jquery.js" name="jquery/jquery.js"
+                      absoluteUrl="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+            <resource id="res_jquery-lightbox" name="jquery/lightbox_1.2.3.js"/>
+        </library>
+    </libraries>
+
+
+    <mirrors>
+        <mirror id="hetzner" basePath="http://static.studyguru.net/res/">
+            <for libraryId="primefaces"/>
+            <for libraryId="th"/>
+            <for libraryId="jquery-highcharts"/>
+            <for libraryId="team"/>
+        </mirror>
+        <mirror id="aws_s3" basePath="http://s3.studyguru.net/res/">
+            <for libraryId="primefaces"/>
+            <for libraryId="jquery"/>
+            <for libraryId="jquery-highcharts"/>
+        </mirror>
+    </mirrors>
+
+    <update enabled="true">
+        <user>domdorn</user>
+        <pass>jsf-resource-relocator_secret_password</pass>
+    </update>
+
+</relocator>
