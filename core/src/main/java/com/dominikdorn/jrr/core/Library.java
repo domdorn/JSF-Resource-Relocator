@@ -1,5 +1,8 @@
 package com.dominikdorn.jrr.core;
 
+import org.apache.commons.digester.annotations.rules.BeanPropertySetter;
+import org.apache.commons.digester.annotations.rules.ObjectCreate;
+
 import java.util.List;
 
 /**

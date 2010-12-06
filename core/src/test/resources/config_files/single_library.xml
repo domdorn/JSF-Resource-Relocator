@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/0.1.xsd"
+        >
+        <libraries>
+            <library id="primefaces">
+
+            </library>
+            <library id="prettyfaces">
+
+            </library>
+        </libraries>
+
+</relocator>

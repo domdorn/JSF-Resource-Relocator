@@ -11,4 +11,8 @@ public class ConfigurationParsingException extends ConfigurationException {
     public ConfigurationParsingException(Exception e) {
         super();
     }
+
+    public ConfigurationParsingException(String e) {
+        super(e);
+    }
 }

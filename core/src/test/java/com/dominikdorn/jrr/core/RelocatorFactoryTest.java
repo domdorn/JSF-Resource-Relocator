@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -22,6 +23,7 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_01 = "config_files/jsf-resource-relocator_example_01.xml";
     private final String EXAMPLE_CONFIGURATION_EMPTY_CONFIG = "config_files/empty_config.xml";
     private final String EXAMPLE_CONFIGURATION_INVALID_EMPTY_FILE = "config_files/invalid_config.xml";
+    private final String EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE = "config_files/single_library.xml";
 
 
 
@@ -61,6 +63,20 @@ public class RelocatorFactoryTest {
         assertNotNull(relocator);
     }
 
-    
+    @Test
+    public void singleLibrary() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        System.out.println("relocator: "+relocator);
+        assertNotNull(relocator.libraries);
+        assertEquals(2, relocator.libraries.size());
+        assertEquals("primefaces", relocator.libraries.get(0).id);
+        assertEquals("prettyfaces", relocator.libraries.get(1).id);
+    }
 
 }

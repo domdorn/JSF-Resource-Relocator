@@ -21,28 +21,22 @@ public class RelocatorFactory {
             ConfigurationParsingException, ConfigurationIOException, ConfigurationNotFoundException {
         if(input == null)
             throw new ConfigurationNotFoundException();
-
+        Relocator relocator;
         Digester digester = new Digester();
         digester.setUseContextClassLoader(true);
         digester.setValidating(false);
-        digester.addObjectCreate("relocator", Relocator.class);
+        digester.addObjectCreate("relocator", Relocator.class.getCanonicalName());
+        digester.addObjectCreate("relocator/libraries/library", Library.class.getCanonicalName());
+        digester.addSetProperties("relocator/libraries/library");
+        digester.addSetNext("relocator/libraries/library", "addLibrary", Library.class.getCanonicalName());
 
-
-//                digester.addObjectCreate("exception-handler", com.dominikdorn.sk.jsf.eh.ExceptionHandler.class.getCanonicalName());
-//                digester.addSetProperties("exception-handler");
-//                digester.addObjectCreate("exception-handler/exception", ExceptionMapping.class.getCanonicalName());
-//                digester.addSetProperties("exception-handler/exception");
-//                digester.addSetNext("exception-handler/exception", "addMapping", ExceptionMapping.class.getCanonicalName());
         try {
-            Relocator relocator = (Relocator) digester.parse(input);
+            relocator = (Relocator) digester.parse(input);
+            return relocator;
         } catch (IOException e) {
             throw new ConfigurationIOException(e);
         } catch (SAXException e) {
             throw new ConfigurationParsingException(e);
         }
-//                this.eh = (com.dominikdorn.sk.jsf.eh.ExceptionHandler) digester.parse(input);
-
-
-        return new Relocator();
     }
 }
