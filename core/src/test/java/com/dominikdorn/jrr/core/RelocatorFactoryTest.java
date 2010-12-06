@@ -24,6 +24,7 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_EMPTY_CONFIG = "config_files/empty_config.xml";
     private final String EXAMPLE_CONFIGURATION_INVALID_EMPTY_FILE = "config_files/invalid_config.xml";
     private final String EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE = "config_files/single_library.xml";
+    private final String EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE = "config_files/two_empty_mirrors.xml";
 
 
 
@@ -64,7 +65,7 @@ public class RelocatorFactoryTest {
     }
 
     @Test
-    public void singleLibrary() throws Exception
+    public void two_empty_libraries() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE);
         InputStream input = new FileInputStream(urlURL.getFile());
@@ -72,11 +73,25 @@ public class RelocatorFactoryTest {
 
         Relocator relocator = RelocatorFactory.getRelocator(input);
         assertNotNull(relocator);
-        System.out.println("relocator: "+relocator);
         assertNotNull(relocator.libraries);
         assertEquals(2, relocator.libraries.size());
         assertEquals("primefaces", relocator.libraries.get(0).id);
         assertEquals("prettyfaces", relocator.libraries.get(1).id);
+    }
+
+    @Test
+    public void two_empty_mirrors() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.mirrors);
+        assertEquals(2, relocator.mirrors.size());
+        assertEquals("hetzner", relocator.mirrors.get(0).id);
+        assertEquals("aws_s3", relocator.mirrors.get(1).id);
     }
 
 }

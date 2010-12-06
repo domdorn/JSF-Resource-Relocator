@@ -26,9 +26,14 @@ public class RelocatorFactory {
         digester.setUseContextClassLoader(true);
         digester.setValidating(false);
         digester.addObjectCreate("relocator", Relocator.class.getCanonicalName());
+
         digester.addObjectCreate("relocator/libraries/library", Library.class.getCanonicalName());
         digester.addSetProperties("relocator/libraries/library");
         digester.addSetNext("relocator/libraries/library", "addLibrary", Library.class.getCanonicalName());
+
+        digester.addObjectCreate("relocator/mirrors/mirror", Mirror.class.getCanonicalName());
+        digester.addSetProperties("relocator/mirrors/mirror");
+        digester.addSetNext("relocator/mirrors/mirror", "addMirror", Mirror.class.getCanonicalName());
 
         try {
             relocator = (Relocator) digester.parse(input);

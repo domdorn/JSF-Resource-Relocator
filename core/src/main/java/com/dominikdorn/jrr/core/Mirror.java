@@ -14,6 +14,7 @@ import java.util.List;
 public class Mirror {
 
     String id;
+    String basePath;
     List<String> libraries = new ArrayList<String>();
 
 
@@ -31,5 +32,13 @@ public class Mirror {
 
     public void setLibraries(List<String> libraries) {
         this.libraries = libraries;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 }

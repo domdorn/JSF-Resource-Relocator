@@ -21,29 +21,24 @@ public class Relocator {
         return mirrors;
     }
 
-    public void setMirrors(List<Mirror> mirrors) {
-        this.mirrors = mirrors;
-    }
-
     public List<Library> getLibraries() {
         return libraries;
     }
 
     public void addLibrary(final Library library) throws ConfigurationParsingException {
-        if(null == library.id || library.id.isEmpty())
+        if(null == library)
+            throw new IllegalArgumentException("This may not happen: Tried to add a null-library");
+        if(null == library || null == library.id || library.id.isEmpty())
             throw new ConfigurationParsingException("found library with missing id attribute");
         libraries.add(library);
     }
 
-    public void addMirror(Mirror mirror)
-    {
-        this.mirrors.add(mirror);
-    }
+    public void addMirror(Mirror mirror) throws ConfigurationParsingException {
+        if(null == mirror)
+            throw new IllegalArgumentException("This may not happen: Tried to add a null-mirror");
+        if(null == mirror || null == mirror.id || mirror.id.isEmpty())
+            throw new ConfigurationParsingException("found a mirror with missing id attribute");
 
-    public void setRoot(Relocator relocator)
-    {
-        System.out.println("replacing this relocator ( " + this +" ) with other relocator " + relocator);
-        this.libraries = relocator.libraries;
-        this.mirrors = relocator.mirrors;
+        this.mirrors.add(mirror);
     }
 }
