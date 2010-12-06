@@ -16,6 +16,8 @@ public class Relocator {
 
     List<Mirror> mirrors = new ArrayList<Mirror>();
     List<Library> libraries = new ArrayList<Library>();
+    Update update;
+
 
     public List<Mirror> getMirrors() {
         return mirrors;
@@ -40,5 +42,9 @@ public class Relocator {
             throw new ConfigurationParsingException("found a mirror with missing id attribute");
 
         this.mirrors.add(mirror);
+    }
+
+    public void setUpdate(Update update) {
+        this.update = update;
     }
 }

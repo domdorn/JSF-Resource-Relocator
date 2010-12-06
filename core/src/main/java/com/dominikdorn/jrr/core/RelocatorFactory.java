@@ -35,6 +35,14 @@ public class RelocatorFactory {
         digester.addSetProperties("relocator/mirrors/mirror");
         digester.addSetNext("relocator/mirrors/mirror", "addMirror", Mirror.class.getCanonicalName());
 
+        digester.addObjectCreate("relocator/update", Update.class.getCanonicalName());
+        digester.addSetProperties("relocator/update");
+
+        digester.addBeanPropertySetter("relocator/update/user", "user");
+        digester.addBeanPropertySetter("relocator/update/pass", "pass");
+
+        digester.addSetRoot("relocator/update", "setUpdate", Update.class.getCanonicalName());
+
         try {
             relocator = (Relocator) digester.parse(input);
             return relocator;

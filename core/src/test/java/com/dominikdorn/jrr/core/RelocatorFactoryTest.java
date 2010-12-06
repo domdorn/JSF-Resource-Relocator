@@ -25,7 +25,13 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_INVALID_EMPTY_FILE = "config_files/invalid_config.xml";
     private final String EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE = "config_files/single_library.xml";
     private final String EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE = "config_files/two_empty_mirrors.xml";
+    private final String EXAMPLE_CONFIGURATION_UPDATE_ENABLED_FILE = "config_files/update_enabled.xml";
+    private final String EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE = "config_files/update_disabled.xml";
 
+    private final String UPDATE_USERNAME = "domdorn";
+    private final String UPDATE_PASSWORD = "testpassword";
+    private final boolean UPDATE_ENABLED = true;
+    private final boolean UPDATE_DISABLED = false;
 
 
     @Before
@@ -93,5 +99,34 @@ public class RelocatorFactoryTest {
         assertEquals("hetzner", relocator.mirrors.get(0).id);
         assertEquals("aws_s3", relocator.mirrors.get(1).id);
     }
+    
+    @Test
+    public void update_enabled() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_ENABLED_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
 
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.update);
+        assertEquals(UPDATE_ENABLED, relocator.update.enabled);
+        assertEquals(UPDATE_USERNAME, relocator.update.user);
+        assertEquals(UPDATE_PASSWORD, relocator.update.pass);
+    }
+
+    @Test
+    public void update_disabled() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.update);
+        assertEquals(UPDATE_DISABLED, relocator.update.enabled);
+        assertEquals(UPDATE_USERNAME, relocator.update.user);
+        assertEquals(UPDATE_PASSWORD, relocator.update.pass);
+    }
 }
