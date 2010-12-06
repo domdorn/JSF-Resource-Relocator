@@ -7,10 +7,14 @@ package com.dominikdorn.jrr.core;
  */
 public class Update {
 
+    public final static String DEFAULT_USERNAME = "admin";
+    public final static String DEFAULT_PASSWORD = "default";
+
+
     boolean enabled = false;
 
-    String user;
-    String pass;
+    String user = DEFAULT_USERNAME;
+    String pass = DEFAULT_PASSWORD;
 
     public boolean isEnabled() {
         return enabled;
@@ -34,5 +38,21 @@ public class Update {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    void checkIntegrity()
+    {
+        if(user == null || pass == null)
+        {
+            enabled = false;
+            return;
+        }
+
+        if(user.equals(DEFAULT_USERNAME) && pass.equals(DEFAULT_PASSWORD))
+        {
+            enabled = false;
+            return;
+        }
+        
     }
 }

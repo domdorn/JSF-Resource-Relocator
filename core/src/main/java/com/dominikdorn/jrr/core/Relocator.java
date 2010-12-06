@@ -16,7 +16,7 @@ public class Relocator {
 
     List<Mirror> mirrors = new ArrayList<Mirror>();
     List<Library> libraries = new ArrayList<Library>();
-    Update update;
+    Update update = new Update();
 
 
     public List<Mirror> getMirrors() {
@@ -45,6 +45,9 @@ public class Relocator {
     }
 
     public void setUpdate(Update update) {
+        if(null == update)
+            throw new IllegalArgumentException("This may not happen: Update set to null");
+        update.checkIntegrity();
         this.update = update;
     }
 }

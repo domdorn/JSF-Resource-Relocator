@@ -27,9 +27,14 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE = "config_files/two_empty_mirrors.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_ENABLED_FILE = "config_files/update_enabled.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE = "config_files/update_disabled.xml";
+    private final String EXAMPLE_CONFIGURATION_UPDATE_ADMIN_DEFAULT_CREDENTIALS_DISABLED_FILE = "config_files/update_admin_default_cred_disabled.xml";
 
     private final String UPDATE_USERNAME = "domdorn";
     private final String UPDATE_PASSWORD = "testpassword";
+
+    private final String UPDATE_DEFAULT_USERNAME = "admin";
+    private final String UPDATE_DEFAULT_PASSWORD = "default";
+
     private final boolean UPDATE_ENABLED = true;
     private final boolean UPDATE_DISABLED = false;
 
@@ -128,5 +133,20 @@ public class RelocatorFactoryTest {
         assertEquals(UPDATE_DISABLED, relocator.update.enabled);
         assertEquals(UPDATE_USERNAME, relocator.update.user);
         assertEquals(UPDATE_PASSWORD, relocator.update.pass);
+    }
+
+    @Test
+    public void update_default_credentials_disabled() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_ADMIN_DEFAULT_CREDENTIALS_DISABLED_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.update);
+        assertEquals(UPDATE_DISABLED, relocator.update.enabled);
+        assertEquals(UPDATE_DEFAULT_USERNAME, relocator.update.user);
+        assertEquals(UPDATE_DEFAULT_PASSWORD, relocator.update.pass);
     }
 }
