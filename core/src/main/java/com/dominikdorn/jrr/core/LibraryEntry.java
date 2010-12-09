@@ -1,9 +1,11 @@
 package com.dominikdorn.jrr.core;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This is the base class for an Entry inside of a Library,
+ * e.g. <em>jquery/jquery.js</em> in Library <em>primefaces</em>.
+ *
+ * Every <code>LibraryEntry</code> contains an <code>id</code> and
+ * a <code>name</code>.
  */
 public abstract class LibraryEntry {
     String id;
