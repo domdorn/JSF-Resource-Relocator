@@ -29,6 +29,11 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE = "config_files/update_disabled.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_ADMIN_DEFAULT_CREDENTIALS_DISABLED_FILE = "config_files/update_admin_default_cred_disabled.xml";
 
+    private final String EXAMPLE_CONFIGURATION_LIBRARY_EXCLUDE_RESOURCES_FILE = "config_files/exclude_resource.xml";
+    private final String EXAMPLE_CONFIGURATION_LIBRARY_REPLACE_RESOURCES_FILE = "config_files/replace_resource.xml";
+    private final String EXAMPLE_CONFIGURATION_LIBRARY_DECLARE_RESOURCES_FILE = "config_files/declare_resource.xml";
+
+
     private final String UPDATE_USERNAME = "domdorn";
     private final String UPDATE_PASSWORD = "testpassword";
 
@@ -149,4 +154,23 @@ public class RelocatorFactoryTest {
         assertEquals(UPDATE_DEFAULT_USERNAME, relocator.update.user);
         assertEquals(UPDATE_DEFAULT_PASSWORD, relocator.update.pass);
     }
+
+    @Test
+    public void library_exclude_resources() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_EXCLUDE_RESOURCES_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.libraries);
+        assertEquals(2, relocator.libraries.size());
+        assertEquals("primefaces", relocator.libraries.get(0).id);
+        assertEquals(2, relocator.libraries.get(0).getEntries().size());
+        assertEquals("jquery/jquery.js", relocator.libraries.get(0).getEntries().get(0).getName());
+        assertEquals("jquery/jquery-lightbox.js", relocator.libraries.get(0).getEntries().get(1).getName());
+    }
+
+
 }
