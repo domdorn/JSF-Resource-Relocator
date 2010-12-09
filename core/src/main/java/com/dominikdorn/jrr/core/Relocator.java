@@ -1,5 +1,6 @@
 package com.dominikdorn.jrr.core;
 
+import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
 import org.apache.commons.digester.annotations.rules.ObjectCreate;
 import org.apache.commons.digester.annotations.rules.SetNext;
@@ -49,5 +50,17 @@ public class Relocator {
             throw new IllegalArgumentException("This may not happen: Update set to null");
         update.checkIntegrity();
         this.update = update;
+    }
+
+    /**
+     * This method checks the integrity of the configuration,
+     * meaning there are no duplicate <em>id</em>s, <em>with</em>-references correctly point
+     * to registered <em>id</em>s and so on.
+     *
+     * @throws ConfigurationException if an error in the configuration is found.
+     */
+    public void checkIntegrity() throws ConfigurationException
+    {
+
     }
 }

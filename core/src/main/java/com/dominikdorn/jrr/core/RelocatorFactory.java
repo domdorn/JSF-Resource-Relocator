@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class RelocatorFactory {
 
     public static Relocator getRelocator(InputStream input) throws
-            ConfigurationParsingException, ConfigurationIOException, ConfigurationNotFoundException {
+            ConfigurationException {
         if(input == null)
             throw new ConfigurationNotFoundException();
         Relocator relocator;
@@ -59,6 +59,7 @@ public class RelocatorFactory {
 
         try {
             relocator = (Relocator) digester.parse(input);
+            relocator.checkIntegrity();
             return relocator;
         } catch (IOException e) {
             throw new ConfigurationIOException(e);
