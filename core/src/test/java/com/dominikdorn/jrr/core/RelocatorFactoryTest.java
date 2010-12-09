@@ -190,4 +190,26 @@ public class RelocatorFactoryTest {
         assertEquals("google_cdn_jquery_1_4", ((ReplaceLibraryEntry) relocator.libraries.get(0).getEntries().get(0)).getWith());
     }
 
+    @Test
+    public void library_declare_resources() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_DECLARE_RESOURCES_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.libraries);
+        assertEquals(3, relocator.libraries.size());
+        assertEquals("primefaces", relocator.libraries.get(0).id);
+        assertEquals(0, relocator.libraries.get(0).getEntries().size());
+        assertEquals(0, relocator.libraries.get(1).getEntries().size());
+        assertEquals(1, relocator.libraries.get(2).getEntries().size());
+        assertEquals(ResourceLibraryEntry.class, relocator.libraries.get(2).getEntries().get(0).getClass());
+        ResourceLibraryEntry entry = ((ResourceLibraryEntry) relocator.libraries.get(2).getEntries().get(0));
+        assertEquals("google_cdn_jquery_1_4", entry.getId());
+        assertEquals("jquery/jquery.js", entry.getName());
+        assertEquals("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", entry.getAbsoluteUrl());
+
+    }
 }
