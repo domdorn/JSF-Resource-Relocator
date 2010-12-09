@@ -3,7 +3,7 @@
         xmlns="http://opentck.org/jsf-resource-relocater"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="
-        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/0.1.xsd"
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd"
         >
 
     <libraries>
