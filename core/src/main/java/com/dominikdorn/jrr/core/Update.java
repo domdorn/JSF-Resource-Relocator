@@ -1,9 +1,12 @@
 package com.dominikdorn.jrr.core;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This class holds information needed to update the
+ * <em>ResourceRelocator</em> during runtime.
+ *
+ * It contains an additional <em>checkIntegrity()</em> method
+ * that sets <em>enabled</em> to <em>false</em> if the default credentials
+ * are used or no credentials are given.
  */
 public class Update {
 
