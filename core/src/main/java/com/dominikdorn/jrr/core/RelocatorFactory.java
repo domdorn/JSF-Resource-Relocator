@@ -31,6 +31,20 @@ public class RelocatorFactory {
         digester.addSetProperties("relocator/libraries/library");
         digester.addSetNext("relocator/libraries/library", "addLibrary", Library.class.getCanonicalName());
 
+
+        digester.addObjectCreate("relocator/libraries/library/exclude", ExcludeLibraryEntry.class.getCanonicalName());
+        digester.addSetProperties("relocator/libraries/library/exclude");
+        digester.addSetNext("relocator/libraries/library/exclude", "addEntry", ExcludeLibraryEntry.class.getCanonicalName());
+
+        digester.addObjectCreate("relocator/libraries/library/replace", ReplaceLibraryEntry.class.getCanonicalName());
+        digester.addSetProperties("relocator/libraries/library/replace");
+        digester.addSetNext("relocator/libraries/library/replace", "addEntry", ReplaceLibraryEntry.class.getCanonicalName());
+
+        digester.addObjectCreate("relocator/libraries/library/resource", ResourceLibraryEntry.class.getCanonicalName());
+        digester.addSetProperties("relocator/libraries/library/resource");
+        digester.addSetNext("relocator/libraries/library/resource", "addEntry", ResourceLibraryEntry.class.getCanonicalName());
+
+
         digester.addObjectCreate("relocator/mirrors/mirror", Mirror.class.getCanonicalName());
         digester.addSetProperties("relocator/mirrors/mirror");
         digester.addSetNext("relocator/mirrors/mirror", "addMirror", Mirror.class.getCanonicalName());
