@@ -1,19 +1,22 @@
 package com.dominikdorn.jrr.core;
 
-import org.apache.commons.digester.annotations.rules.BeanPropertySetter;
-import org.apache.commons.digester.annotations.rules.ObjectCreate;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This class represents a &quot;Library&quot; element
+ * in the configuration file.
+ *
+ * A library contains an identifier <code>id</code> an a list of
+ * <code>LibraryEntry</code>s.
+ *
+ * These entries are added to the library by the parser using
+ * the <code>addEntry</code> method.
  */
 public class Library {
 
     String id;
-    List<LibraryEntry> entries;
+    List<LibraryEntry> entries = new ArrayList<LibraryEntry>();
 
     public String getId() {
         return id;
@@ -27,7 +30,10 @@ public class Library {
         return entries;
     }
 
-    public void setEntries(List<LibraryEntry> entries) {
-        this.entries = entries;
+    public void addEntry(LibraryEntry entry)
+    {
+        if(entry == null)
+            throw new IllegalArgumentException("This may not happen: Try to add a null LibraryEntry");
+        entries.add(entry);
     }
 }
