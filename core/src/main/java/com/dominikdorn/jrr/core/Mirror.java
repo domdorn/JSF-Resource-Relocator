@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This class specifies a <em>Mirror</em>.
+ *
+ * A <em>Mirror</em> is usually a specific host providing certain <em>Library</em>s
+ * under a specific <em>basePath</em>.
  */
 public class Mirror {
 
@@ -28,10 +29,6 @@ public class Mirror {
 
     public List<String> getLibraries() {
         return libraries;
-    }
-
-    public void setLibraries(List<String> libraries) {
-        this.libraries = libraries;
     }
 
     public String getBasePath() {
