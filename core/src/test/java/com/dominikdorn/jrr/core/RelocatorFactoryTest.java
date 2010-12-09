@@ -172,5 +172,22 @@ public class RelocatorFactoryTest {
         assertEquals("jquery/jquery-lightbox.js", relocator.libraries.get(0).getEntries().get(1).getName());
     }
 
+    @Test
+    public void library_replace_resources() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_REPLACE_RESOURCES_FILE);
+        InputStream input = new FileInputStream(urlURL.getFile());
+        assertNotNull(input);
+
+        Relocator relocator = RelocatorFactory.getRelocator(input);
+        assertNotNull(relocator);
+        assertNotNull(relocator.libraries);
+        assertEquals(3, relocator.libraries.size());
+        assertEquals("primefaces", relocator.libraries.get(0).id);
+        assertEquals(1, relocator.libraries.get(0).getEntries().size());
+        assertEquals("jquery/jquery.js", relocator.libraries.get(0).getEntries().get(0).getName());
+        assertEquals(ReplaceLibraryEntry.class, relocator.libraries.get(0).getEntries().get(0).getClass());
+        assertEquals("google_cdn_jquery_1_4", ((ReplaceLibraryEntry) relocator.libraries.get(0).getEntries().get(0)).getWith());
+    }
 
 }
