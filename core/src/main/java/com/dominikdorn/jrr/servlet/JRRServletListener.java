@@ -3,6 +3,7 @@ package com.dominikdorn.jrr.servlet;
 import com.dominikdorn.jrr.core.Constants;
 import com.dominikdorn.jrr.core.Relocator;
 import com.dominikdorn.jrr.core.RelocatorFactory;
+import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationIOException;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
@@ -42,7 +43,12 @@ public class JRRServletListener implements ServletContextListener {
             );
         } catch (ConfigurationNotFoundException e) {
             log.info("JSF Resource Relocator not loaded: Configuration file WEB-INF/jsf-resource-relocator.xml is missing.");
-        } finally {
+        }
+        catch (ConfigurationException e)
+        {
+            log.info("Catched a general ConfigurationException. ");
+        }
+        finally {
             if(inputStream != null)
             {
                 try{
