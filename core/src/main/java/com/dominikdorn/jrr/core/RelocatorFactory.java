@@ -4,11 +4,18 @@ import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationIOException;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
+import com.sun.org.apache.xerces.internal.util.SAXInputSource;
 import org.apache.commons.digester.Digester;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.xml.XMLConstants;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.*;
+import java.net.URL;
 
 /**
  * Dominik Dorn
@@ -17,14 +24,60 @@ import java.io.InputStream;
  */
 public class RelocatorFactory {
 
-    public static Relocator getRelocator(InputStream input) throws
+    public static Relocator getRelocator(URL input) throws ConfigurationException
+    {
+        if(input == null)
+            throw new ConfigurationNotFoundException();
+
+        try {
+            validateConfigurationFile(new FileInputStream(input.getFile()));
+
+            return getRelocator(new FileInputStream(input.getFile()) );
+        } catch (FileNotFoundException e) {
+            throw new ConfigurationNotFoundException();
+        }
+    }
+
+    private static void validateConfigurationFile(InputStream input) throws ConfigurationException {
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+        Schema schema = null;
+        InputSource inputSource;
+        try {
+            schema = sf.newSchema(
+                new File(Relocator.class.getResource("/META-INF/jsf_resource_resolver_1_0.xsd").getFile()));
+            Validator val = schema.newValidator();
+
+            inputSource = new InputSource(input);
+            SAXSource source = new SAXSource(inputSource);
+            val.validate(source);
+        } catch (SAXException e) {
+            throw new ConfigurationParsingException(e);
+        } catch (IOException e) {
+            throw new ConfigurationIOException(e);
+        }
+        finally {
+            if(input != null)
+            {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private static Relocator getRelocator(InputStream input) throws
             ConfigurationException {
         if(input == null)
             throw new ConfigurationNotFoundException();
         Relocator relocator;
         Digester digester = new Digester();
-        digester.setUseContextClassLoader(true);
         digester.setValidating(false);
+
+        digester.setUseContextClassLoader(true);
         digester.addObjectCreate("relocator", Relocator.class.getCanonicalName());
 
         digester.addObjectCreate("relocator/libraries/library", Library.class.getCanonicalName());
@@ -56,7 +109,6 @@ public class RelocatorFactory {
         digester.addBeanPropertySetter("relocator/update/pass", "pass");
 
         digester.addSetRoot("relocator/update", "setUpdate", Update.class.getCanonicalName());
-
         try {
             relocator = (Relocator) digester.parse(input);
             relocator.checkIntegrity();

@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -56,7 +57,7 @@ public class RelocatorFactoryTest {
     @Test(expected = ConfigurationNotFoundException.class)
     public void nullInputStream() throws Exception
     {
-        RelocatorFactory.getRelocator(null);
+        RelocatorFactory.getRelocator((URL)null);
     }
 
 
@@ -64,19 +65,14 @@ public class RelocatorFactoryTest {
     public void emptyFileInputStream() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_INVALID_EMPTY_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
-        RelocatorFactory.getRelocator(input);
+        RelocatorFactory.getRelocator(urlURL);
     }
 
     @Test
     public void emptyRelocatorConfigration() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_EMPTY_CONFIG);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
-
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
     }
 
@@ -84,10 +80,7 @@ public class RelocatorFactoryTest {
     public void two_empty_libraries() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
-
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.libraries);
         assertEquals(2, relocator.libraries.size());
@@ -99,10 +92,8 @@ public class RelocatorFactoryTest {
     public void two_empty_mirrors() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.mirrors);
         assertEquals(2, relocator.mirrors.size());
@@ -114,10 +105,8 @@ public class RelocatorFactoryTest {
     public void update_enabled() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_ENABLED_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.update);
         assertEquals(UPDATE_ENABLED, relocator.update.enabled);
@@ -129,10 +118,8 @@ public class RelocatorFactoryTest {
     public void update_disabled() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.update);
         assertEquals(UPDATE_DISABLED, relocator.update.enabled);
@@ -144,10 +131,8 @@ public class RelocatorFactoryTest {
     public void update_default_credentials_disabled() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_UPDATE_ADMIN_DEFAULT_CREDENTIALS_DISABLED_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.update);
         assertEquals(UPDATE_DISABLED, relocator.update.enabled);
@@ -159,10 +144,8 @@ public class RelocatorFactoryTest {
     public void library_exclude_resources() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_EXCLUDE_RESOURCES_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.libraries);
         assertEquals(2, relocator.libraries.size());
@@ -176,10 +159,8 @@ public class RelocatorFactoryTest {
     public void library_replace_resources() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_REPLACE_RESOURCES_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.libraries);
         assertEquals(3, relocator.libraries.size());
@@ -194,10 +175,8 @@ public class RelocatorFactoryTest {
     public void library_declare_resources() throws Exception
     {
         URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_LIBRARY_DECLARE_RESOURCES_FILE);
-        InputStream input = new FileInputStream(urlURL.getFile());
-        assertNotNull(input);
 
-        Relocator relocator = RelocatorFactory.getRelocator(input);
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
         assertNotNull(relocator);
         assertNotNull(relocator.libraries);
         assertEquals(3, relocator.libraries.size());

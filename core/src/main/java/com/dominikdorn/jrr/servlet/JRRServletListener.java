@@ -13,6 +13,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Logger;
 
 /**
@@ -27,11 +29,10 @@ public class JRRServletListener implements ServletContextListener {
 
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        InputStream inputStream = null;
+        URL configurationURL = null;
         try{
-
-            inputStream = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
-            Relocator relocator = RelocatorFactory.getRelocator(inputStream);
+            configurationURL = servletContextEvent.getServletContext().getResource(Constants.CONFIGURATION_FILE);
+            Relocator relocator = RelocatorFactory.getRelocator(configurationURL);
             servletContextEvent.getServletContext().setAttribute(Constants.CONTEXT_ATTRIBUTE_NAME, relocator);
         }
         catch (ConfigurationIOException e) {
@@ -47,17 +48,8 @@ public class JRRServletListener implements ServletContextListener {
         catch (ConfigurationException e)
         {
             log.info("Catched a general ConfigurationException. ");
-        }
-        finally {
-            if(inputStream != null)
-            {
-                try{
-                    inputStream.close();
-                } catch (IOException e) {
-                    // shouldn't happen
-                    log.warning("Failed to close the inputStream. This shouldn't happen");
-                }
-            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
 
     }
