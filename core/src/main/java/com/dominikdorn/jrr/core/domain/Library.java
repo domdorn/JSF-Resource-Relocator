@@ -34,6 +34,7 @@ public class Library {
     {
         if(entry == null)
             throw new IllegalArgumentException("This may not happen: Try to add a null LibraryEntry");
+        entry.parent = this;
         entries.add(entry);
     }
 }

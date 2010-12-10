@@ -10,7 +10,7 @@ package com.dominikdorn.jrr.core.domain;
 public abstract class LibraryEntry {
     String id;
     String name;
-
+    Library parent;
 
     public String getId() {
         return id;
@@ -26,5 +26,13 @@ public abstract class LibraryEntry {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Library getParent() {
+        return parent;
+    }
+
+    public void setParent(Library parent) {
+        this.parent = parent;
     }
 }
