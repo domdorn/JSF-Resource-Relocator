@@ -38,4 +38,9 @@ public class Mirror {
     public void setBasePath(String basePath) {
         this.basePath = basePath;
     }
+
+    public void addLibrary(String libraryId)
+    {
+        libraries.add(libraryId);
+    }
 }
