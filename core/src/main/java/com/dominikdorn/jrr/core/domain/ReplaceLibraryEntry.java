@@ -1,4 +1,4 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 /**
  * This <em>LibraryEntry</em> is supposed to replace an existing

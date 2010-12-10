@@ -1,18 +1,15 @@
 package com.dominikdorn.jrr.servlet;
 
 import com.dominikdorn.jrr.core.Constants;
-import com.dominikdorn.jrr.core.Relocator;
-import com.dominikdorn.jrr.core.RelocatorFactory;
+import com.dominikdorn.jrr.core.domain.Relocator;
+import com.dominikdorn.jrr.core.domain.RelocatorFactory;
 import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationIOException;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
-import org.apache.commons.digester.Digester;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;

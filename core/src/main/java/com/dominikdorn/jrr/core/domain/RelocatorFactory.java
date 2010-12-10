@@ -1,10 +1,9 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationIOException;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
-import com.sun.org.apache.xerces.internal.util.SAXInputSource;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

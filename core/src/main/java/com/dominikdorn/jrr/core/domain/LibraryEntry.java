@@ -1,4 +1,4 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 /**
  * This is the base class for an Entry inside of a Library,

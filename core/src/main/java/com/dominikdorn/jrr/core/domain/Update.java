@@ -1,4 +1,4 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 /**
  * This class holds information needed to update the

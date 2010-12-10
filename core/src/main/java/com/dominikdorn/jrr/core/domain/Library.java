@@ -1,4 +1,4 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 import java.util.ArrayList;
 import java.util.List;

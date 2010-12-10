@@ -1,14 +1,15 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
+import com.dominikdorn.jrr.core.domain.Relocator;
+import com.dominikdorn.jrr.core.domain.RelocatorFactory;
+import com.dominikdorn.jrr.core.domain.ReplaceLibraryEntry;
+import com.dominikdorn.jrr.core.domain.ResourceLibraryEntry;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;

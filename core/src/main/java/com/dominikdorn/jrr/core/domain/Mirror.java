@@ -1,4 +1,4 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 import org.apache.commons.digester.annotations.rules.BeanPropertySetter;
 import org.apache.commons.digester.annotations.rules.ObjectCreate;

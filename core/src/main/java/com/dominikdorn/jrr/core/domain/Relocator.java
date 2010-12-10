@@ -1,9 +1,7 @@
-package com.dominikdorn.jrr.core;
+package com.dominikdorn.jrr.core.domain;
 
 import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
-import org.apache.commons.digester.annotations.rules.ObjectCreate;
-import org.apache.commons.digester.annotations.rules.SetNext;
 
 import java.util.ArrayList;
 import java.util.List;
