@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://opentck.org/jsf-resource-relocater"
+        xmlns:jrr="http://opentck.org/jsf-resource-relocater"
+        elementFormDefault="qualified" attributeFormDefault="unqualified"
+        >
+
+    <!--
+        Root element of every config file.
+        Every config has to start with
+     <![CDATA[
+        <relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1.0.xsd"
+        >
+
+        and to end with
+
+        </relocator>
+     ]]>
+    //-->
+    <element name="relocator" type="jrr:relocatorCT" />
+    <!--<complexType name="rootCT">-->
+        <!--<sequence minOccurs="1" maxOccurs="1">-->
+            <!--<element type="jrr:relocatorCT" name="relocator"/>-->
+        <!--</sequence>-->
+    <!--</complexType>-->
+    <!--
+        ComplexType for the <relocator> element
+    //-->
+    <complexType name="relocatorCT">
+        <sequence>
+            <element name="libraries" type="jrr:librariesCT" minOccurs="0" maxOccurs="1"/>
+            <element name="mirrors" type="jrr:mirrorsCT" minOccurs="0" maxOccurs="1"/>
+            <element name="update" type="jrr:updateCT" minOccurs="0" maxOccurs="1" />
+        </sequence>
+    </complexType>
+
+    <!-- START Handling of Libraries //-->
+    <complexType name="librariesCT" xml:base="anyType">
+        <sequence>
+            <element name="library" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="libraryCT">
+        <sequence minOccurs="0" maxOccurs="unbounded">
+            <element name="excluded" type="jrr:excludedLibraryEntryCT" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="replace" type="jrr:replaceLibraryEntryCT" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="resource" type="jrr:resourceLibraryEntryCT" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="libraryEntryCT">
+        <attribute name="id" type="ID" use="optional" />
+        <attribute name="name" type="string" use="required"/>
+    </complexType>
+
+    <complexType name="excludedLibraryEntryCT" xml:base="jrr:libraryEntryCT">
+
+    </complexType>
+
+    <complexType name="replaceLibraryEntryCT">
+        <attribute name="with" type="IDREF" use="required"/>
+    </complexType>
+
+    <complexType name="resourceLibraryEntryCT" xml:base="jrr:libraryEntryCT">
+
+    </complexType>
+    <!-- END Handling of Libraries //-->
+
+    <!-- END Handling of Updates //-->
+    <complexType name="updateCT">
+        <sequence>
+            <element name="user" type="jrr:updateUserCT" minOccurs="0" maxOccurs="1" default="admin" />
+            <element name="pass" type="jrr:updatePasswordCT" minOccurs="0" maxOccurs="1" default="default"/>
+        </sequence>
+        <attribute name="enabled" default="false" type="boolean" use="optional" />
+    </complexType>
+
+    <complexType name="updateUserCT" xml:base="string">
+        <simpleContent>
+            <extension base="string">
+
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <complexType name="updatePasswordCT" xml:base="string">
+        <simpleContent>
+            <extension base="string">
+
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <!-- END Handling of Updates //-->
+
+
+    <!-- START Handling of Mirrors //-->
+    <complexType name="mirrorsCT">
+        <sequence>
+            <element name="mirror" type="jrr:mirrorCT" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="mirrorCT">
+        <sequence minOccurs="0" maxOccurs="unbounded">
+            <element name="for" type="jrr:mirrorForCT" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="id" use="required" type="ID" />
+        <attribute name="basePath" use="required" type="string" />
+    </complexType>
+
+    <complexType name="mirrorForCT">
+        <attribute name="libraryId" type="IDREF" />
+    </complexType>
+
+    <!-- END Handling of Mirrors //-->
+</schema>
