@@ -27,6 +27,7 @@ public class RelocatorFactoryTest {
     private final String EXAMPLE_CONFIGURATION_INVALID_EMPTY_FILE = "config_files/invalid_config.xml";
     private final String EXAMPLE_CONFIGURATION_SINGLE_LIBRARY_FILE = "config_files/single_library.xml";
     private final String EXAMPLE_CONFIGURATION_TWO_EMPTY_MIRRORS_FILE = "config_files/two_empty_mirrors.xml";
+    private final String EXAMPLE_CONFIGURATION_ONE_MIRROR_ONE_LIB_FILE = "config_files/one_mirror_one_lib.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_ENABLED_FILE = "config_files/update_enabled.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_DISABLED_FILE = "config_files/update_disabled.xml";
     private final String EXAMPLE_CONFIGURATION_UPDATE_ADMIN_DEFAULT_CREDENTIALS_DISABLED_FILE = "config_files/update_admin_default_cred_disabled.xml";
@@ -100,6 +101,24 @@ public class RelocatorFactoryTest {
         assertEquals(2, relocator.mirrors.size());
         assertEquals("hetzner", relocator.mirrors.get(0).id);
         assertEquals("aws_s3", relocator.mirrors.get(1).id);
+    }
+
+    @Test
+    public void one_mirror_two_libraries() throws Exception
+    {
+        URL urlURL =  ClassLoader.getSystemResource(EXAMPLE_CONFIGURATION_ONE_MIRROR_ONE_LIB_FILE);
+
+        Relocator relocator = RelocatorFactory.getRelocator(urlURL);
+        assertNotNull(relocator);
+        assertNotNull(relocator.libraries);
+        assertNotNull(relocator.mirrors);
+        assertEquals(1, relocator.mirrors.size());
+        assertEquals(2, relocator.libraries.size());
+        assertEquals("hetzner", relocator.mirrors.get(0).id);
+        assertEquals(2, relocator.mirrors.get(0).getLibraries().size());
+        assertEquals("primefaces", relocator.mirrors.get(0).getLibraries().get(0));
+        assertEquals("prettyfaces", relocator.mirrors.get(0).getLibraries().get(1));
+
     }
     
     @Test
