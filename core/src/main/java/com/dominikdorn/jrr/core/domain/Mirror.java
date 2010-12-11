@@ -43,4 +43,9 @@ public class Mirror {
     {
         libraries.add(libraryId);
     }
+
+    public void addLibrary(MirrorFor mirrorFor)
+    {
+        libraries.add(mirrorFor.getLibraryId());
+    }
 }

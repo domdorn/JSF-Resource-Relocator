@@ -98,6 +98,11 @@ public class RelocatorFactory {
 
 
         digester.addObjectCreate("relocator/mirrors/mirror", Mirror.class.getCanonicalName());
+
+        digester.addObjectCreate("relocator/mirrors/mirror/for", MirrorFor.class.getCanonicalName());
+        digester.addSetProperties("relocator/mirrors/mirror/for");
+        digester.addSetNext("relocator/mirrors/mirror/for", "addLibrary", MirrorFor.class.getCanonicalName());
+
         digester.addSetProperties("relocator/mirrors/mirror");
         digester.addSetNext("relocator/mirrors/mirror", "addMirror", Mirror.class.getCanonicalName());
 
