@@ -4,28 +4,24 @@ import javax.faces.application.Resource;
 import javax.faces.application.ResourceWrapper;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * Wrapper around a <em>Resource</em> returning
+ * our own calculated URL when asked
  */
 public class JRRResourceWrapper extends ResourceWrapper {
 
     private final Resource resource;
-    private final String baseUrl;
+    private final String absoluteUrl;
 
-    public JRRResourceWrapper(final Resource resource, final String baseUrl) {
+    public JRRResourceWrapper(
+            final Resource resource,
+            final String absoluteUrl) {
         this.resource = resource;
-        this.baseUrl = baseUrl;
+        this.absoluteUrl = absoluteUrl;
     }
 
     @Override
     public String getRequestPath() {
-        return baseUrl + resource.getResourceName();
-//        String parentRequestPath = super.getRequestPath();
-//        System.out.println("parentRequestPath = " + parentRequestPath);
-//        System.out.println("resource.getLibraryName() = " + resource.getLibraryName());
-//        System.out.println("resource.getResourceName() = " + resource.getResourceName());
-//        return parentRequestPath;
+        return absoluteUrl;
     }
 
     @Override
