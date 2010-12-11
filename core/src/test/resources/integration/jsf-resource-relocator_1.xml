@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd"
+        >
+
+    <libraries>
+        <library id="primefaces">
+            <replace name="jquery/jquery.js" with="google_res_jquery"/>
+        </library>
+        <library id="google_cdn">
+            <resource id="google_res_jquery" name="jquery/jquery.js"
+                      absoluteUrl="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+        </library>
+        <library id="prettyfaces">
+
+        </library>
+    </libraries>
+
+    <mirrors>
+        <mirror id="google_cdn" basePath="http://ajax.googleapis.com/ajax/libs">
+            <for libraryId="google_cdn"/>
+        </mirror>
+        <mirror id="generic_mirror" basePath="http://static.studyguru.net/resources">
+            <for libraryId="primefaces"/>
+        </mirror>
+    </mirrors>
+
+</relocator>
