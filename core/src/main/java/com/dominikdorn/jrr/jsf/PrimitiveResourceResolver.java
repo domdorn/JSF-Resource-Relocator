@@ -66,12 +66,18 @@ public class PrimitiveResourceResolver {
 
         Mirror m = getMirrorForLibrary(relocator, l.getId());
         if (m == null)
-            return ResolverResult.notManaged();
-
-        return ResolverResult.foundAbsolute(m.getBasePath() + "/" +l.getId() +"/" + resourceName);
-
-
-
+        {
+            if( ! (le instanceof ResourceLibraryEntry))
+                return ResolverResult.notManaged();
+            if( ((ResourceLibraryEntry) le).getAbsoluteUrl() != null)
+                return ResolverResult.foundAbsolute(((ResourceLibraryEntry) le).getAbsoluteUrl());
+        }
+        else
+        {
+            // there are mirrors for this library
+            return ResolverResult.foundAbsolute(m.getBasePath() + "/" +l.getId() +"/" + resourceName);
+        }
+        throw new IllegalStateException("we shouldn't be here...");
     }
 
     private LibraryEntry getLibraryEntry(Relocator relocator, String libraryId, String resourceName) {

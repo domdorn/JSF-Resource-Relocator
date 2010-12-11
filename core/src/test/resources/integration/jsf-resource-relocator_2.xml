@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd"
+        >
+
+    <libraries>
+        <library id="primefaces">
+            <resource name="jquery/jquery.js" absoluteUrl="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+        </library>
+    </libraries>
+</relocator>
