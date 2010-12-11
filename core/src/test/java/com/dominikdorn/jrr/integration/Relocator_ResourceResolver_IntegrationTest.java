@@ -23,6 +23,10 @@ public class Relocator_ResourceResolver_IntegrationTest {
 
     private static final String FILE_JSF_RESOURCE_RELOCATOR_1_XML = "integration/jsf-resource-relocator_1.xml";
     private static final String FILE_JSF_RESOURCE_RELOCATOR_2_XML = "integration/jsf-resource-relocator_2.xml";
+    private static final String LIBRARY_NAME_PRIMEFACES = "primefaces";
+    private static final String RESOURCE_NAME_JQUERY_JQUERY_JS = "jquery/jquery.js";
+    private static final String LIBRARY_NAME_PRETTYFACES = "prettyfaces";
+    private static final String RESOURCE_NAME_JQUERY_LIGHTBOX_JS = "jquery/lightbox.js";
     Relocator relocator;
     PrimitiveResourceResolver resourceResolver;
 
@@ -43,7 +47,7 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void registered_relocated_resource() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/jquery.js");
+        ResolverResult result = resourceResolver.getResourceURL(LIBRARY_NAME_PRIMEFACES, RESOURCE_NAME_JQUERY_JQUERY_JS);
         String url = result.getUrl();
         assertNotNull(url);
         assertEquals("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", url);
@@ -53,7 +57,7 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void notRegistered_resource_mirrored() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/lightbox.js");
+        ResolverResult result = resourceResolver.getResourceURL(LIBRARY_NAME_PRIMEFACES, RESOURCE_NAME_JQUERY_LIGHTBOX_JS);
         assertNotNull(result);
         assertNotNull(result.getUrl());
         assertEquals(ResolverResult.TYPE.ABSOLUTE, result.getType());
@@ -64,7 +68,7 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void notRegistered_resource_not_mirrored() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        ResolverResult result = resourceResolver.getResourceURL("prettyfaces", "jquery/lightbox.js");
+        ResolverResult result = resourceResolver.getResourceURL(LIBRARY_NAME_PRETTYFACES, RESOURCE_NAME_JQUERY_LIGHTBOX_JS);
         String url = result.getUrl();
         assertNull(url);
     }
@@ -73,7 +77,7 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void single_resource_in_library() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_2_XML);
 
-        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/jquery.js");
+        ResolverResult result = resourceResolver.getResourceURL(LIBRARY_NAME_PRIMEFACES, RESOURCE_NAME_JQUERY_JQUERY_JS);
         assertNotNull(result);
         assertNotNull(result.getUrl());
         assertEquals(ResolverResult.TYPE.ABSOLUTE, result.getType());
@@ -84,10 +88,9 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void resource_in_lib_without_mirror() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_2_XML);
 
-        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/lightbox.js");
+        ResolverResult result = resourceResolver.getResourceURL(LIBRARY_NAME_PRIMEFACES, RESOURCE_NAME_JQUERY_LIGHTBOX_JS);
         assertNotNull(result);
         assertNull(result.getUrl());
         assertEquals(ResolverResult.TYPE.NOT_MANAGED, result.getType());
-//        assertEquals("http://static.studyguru.net/resources/primefaces/jquery/lightbox.js", result.getUrl());
     }
 }
