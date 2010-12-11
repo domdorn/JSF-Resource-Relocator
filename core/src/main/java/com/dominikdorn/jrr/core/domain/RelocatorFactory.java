@@ -29,10 +29,12 @@ public class RelocatorFactory {
             throw new ConfigurationNotFoundException();
 
         try {
-            validateConfigurationFile(new FileInputStream(input.getFile()));
+            validateConfigurationFile(input.openStream());
 
-            return getRelocator(new FileInputStream(input.getFile()) );
+            return getRelocator(input.openStream());
         } catch (FileNotFoundException e) {
+            throw new ConfigurationNotFoundException();
+        } catch (IOException e) {
             throw new ConfigurationNotFoundException();
         }
     }
