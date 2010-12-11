@@ -1,5 +1,6 @@
 package com.dominikdorn.jrr.jsf;
 
+import com.dominikdorn.jrr.core.ResolverResult;
 import com.dominikdorn.jrr.core.domain.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -52,7 +53,6 @@ public class ResourceResolverTest {
         dominikJQuery.setId("dominik_jquery");
 
 
-
         /* resources */
         google_jquery_14 = new ResourceLibraryEntry();
         google_jquery_14.setId("google_jquery_14");
@@ -62,7 +62,6 @@ public class ResourceResolverTest {
         primefaces_jquery = new ReplaceLibraryEntry();
         primefaces_jquery.setName("jquery/jquery.js");
         primefaces_jquery.setWith("google_jquery_14");
-
 
 
         dominik_jquery_15 = new ResourceLibraryEntry();
@@ -97,52 +96,55 @@ public class ResourceResolverTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void getResourceURL_null_NPE_expected()
-    {
+    public void getResourceURL_null_NPE_expected() {
         resolver1.getResourceURL(null, null);
         fail();
     }
 
     @Test
-    public void getResourceURL_notManagedLibrary()
-    {
-        assertNull(resolver1.getResourceURL("unknowLibrary", "jquery/jquery.js"));
+    public void getResourceURL_notManagedLibrary() {
+        ResolverResult result = resolver1.getResourceURL("unknowLibrary", "jquery/jquery.js");
+        assertNotNull(result);
+        assertEquals(ResolverResult.TYPE.NOT_MANAGED, result.getType());
     }
 
     @Test
-    public void getResourceURL_managedLibrary_unknownResource_mirrored()
-    {
+    public void getResourceURL_managedLibrary_unknownResource_mirrored() {
         hetzner.addLibrary("primefaces");
 
-        String url = resolver1.getResourceURL("primefaces", "jquery/lightbox.js");
+        ResolverResult result = resolver1.getResourceURL("primefaces", "jquery/lightbox.js");
+        String url = result.getUrl();
+
         assertNotNull(url);
-        Assert.assertEquals(hetzner.getBasePath()+"/primefaces/"+"jquery/lightbox.js", url);
+        Assert.assertEquals(hetzner.getBasePath() + "/primefaces/" + "jquery/lightbox.js", url);
     }
 
     @Test
-    public void getResourceURL_managedLibrary_unknownResource_notMirrored()
-    {
-        String url = resolver1.getResourceURL("primefaces", "jquery/lightbox.js");
+    public void getResourceURL_managedLibrary_unknownResource_notMirrored() {
+        ResolverResult result = resolver1.getResourceURL("primefaces", "jquery/lightbox.js");
+        String url = result.getUrl();
+
         assertNull(url);
     }
 
     @Test
-    public void getResourceURL_managedLibrary_replaceResource()
-    {
+    public void getResourceURL_managedLibrary_replaceResource() {
 
-        String url = resolver1.getResourceURL("primefaces", "jquery/jquery.js");
+        ResolverResult result = resolver1.getResourceURL("primefaces", "jquery/jquery.js");
+        String url = result.getUrl();
+
         assertNotNull(url);
         assertEquals(GOOGLE_JQUERY_14, url);
     }
 
     @Test
-    public void getResourceURL_managedLibrary_replaceResource_otherManagedResource()
-    {
+    public void getResourceURL_managedLibrary_replaceResource_otherManagedResource() {
         hetzner.addLibrary("dominik_jquery");
         primefaces_jquery.setWith("dominik_jquery_15");
-        String url = resolver1.getResourceURL("primefaces", "jquery/jquery.js");
+        ResolverResult result = resolver1.getResourceURL("primefaces", "jquery/jquery.js");
+        String url = result.getUrl();
         assertNotNull(url);
-        assertEquals(hetzner.getBasePath()+"/"+dominikJQuery.getId()+"/"+dominik_jquery_15.getName(), url);
+        assertEquals(hetzner.getBasePath() + "/" + dominikJQuery.getId() + "/" + dominik_jquery_15.getName(), url);
     }
 
     @After

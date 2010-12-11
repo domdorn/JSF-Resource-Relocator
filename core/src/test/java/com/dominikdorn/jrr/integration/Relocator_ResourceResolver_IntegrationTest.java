@@ -1,5 +1,6 @@
 package com.dominikdorn.jrr.integration;
 
+import com.dominikdorn.jrr.core.ResolverResult;
 import com.dominikdorn.jrr.core.domain.Relocator;
 import com.dominikdorn.jrr.core.domain.RelocatorFactory;
 import com.dominikdorn.jrr.exceptions.ConfigurationException;
@@ -41,7 +42,8 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void registered_relocated_resource() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        String url = resourceResolver.getResourceURL("primefaces", "jquery/jquery.js");
+        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/jquery.js");
+        String url = result.getUrl();
         assertNotNull(url);
         assertEquals("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", url);
     }
@@ -50,16 +52,19 @@ public class Relocator_ResourceResolver_IntegrationTest {
     public void notRegistered_resource_mirrored() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        String url = resourceResolver.getResourceURL("primefaces", "jquery/lightbox.js");
-        assertNotNull(url);
-        assertEquals("http://static.studyguru.net/resources/primefaces/jquery/lightbox.js", url);
+        ResolverResult result = resourceResolver.getResourceURL("primefaces", "jquery/lightbox.js");
+        assertNotNull(result);
+        assertNotNull(result.getUrl());
+        assertEquals(ResolverResult.TYPE.ABSOLUTE, result.getType());
+        assertEquals("http://static.studyguru.net/resources/primefaces/jquery/lightbox.js", result.getUrl());
     }
 
     @Test
     public void notRegistered_resource_not_mirrored() throws ConfigurationException {
         prepare(FILE_JSF_RESOURCE_RELOCATOR_1_XML);
 
-        String url = resourceResolver.getResourceURL("prettyfaces", "jquery/lightbox.js");
+        ResolverResult result = resourceResolver.getResourceURL("prettyfaces", "jquery/lightbox.js");
+        String url = result.getUrl();
         assertNull(url);
     }
 }
