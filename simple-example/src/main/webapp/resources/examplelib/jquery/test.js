@@ -1,0 +1,1 @@
+alert('examplelib: Test worked');
