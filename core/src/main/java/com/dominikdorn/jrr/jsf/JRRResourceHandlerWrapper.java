@@ -1,31 +1,33 @@
 package com.dominikdorn.jrr.jsf;
 
+import com.dominikdorn.jrr.core.Constants;
+import com.dominikdorn.jrr.core.ResolverResult;
+
 import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;
 import javax.faces.application.ResourceHandlerWrapper;
-import java.util.HashMap;
-import java.util.Map;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import java.util.logging.Logger;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This class is a Wrapper around a ResourceHandler.
+ * JSF creates this wrapper at application startup and
+ * every time a resource needs to be rendered.
  */
-public class JRRResourceHandlerWrapper extends ResourceHandlerWrapper {
+public final class JRRResourceHandlerWrapper extends ResourceHandlerWrapper {
+    Logger log = Logger.getLogger("JRRResourceHandlerWrapper");
 
     ResourceHandler parent;
-
-    Map<String,String> baseUrls;
+    ServletContext ctx;
+    private PrimitiveResourceResolver resourceResolver;
 
 
     public JRRResourceHandlerWrapper(ResourceHandler parent) {
+        log.fine("invoking JRRResourceHandlerWrapper constructor");
         this.parent = parent;
-        baseUrls = new HashMap<String,String>();
-
-        baseUrls.put("primefaces", "http://static.studyguru.net/res/pf/");
-
-
-        System.out.println("creating SkResourceHandlerWrapper");
+        ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        log.fine("got servletcontext : " + ctx);
     }
 
     @Override
@@ -35,33 +37,56 @@ public class JRRResourceHandlerWrapper extends ResourceHandlerWrapper {
 
     @Override
     public Resource createResource(String resourceName) {
-        Resource r = super.createResource(resourceName);
-//        System.out.println("Resource createResource(String resourceName) = (" + resourceName + ")");
-        return r;
+        log.fine("calling createResource(" + resourceName + ")");
+        return getWrapped().createResource(resourceName);
     }
 
     @Override
     public Resource createResource(String resourceName, String libraryName) {
-        Resource r = super.createResource(resourceName, libraryName);
-        if(baseUrls.containsKey(libraryName))
-            return new JRRResourceWrapper(r, baseUrls.get(libraryName));
-//        System.out.println("Resource createResource(String resourceName, String libraryName) = (" + resourceName +"," + libraryName + ")");
-        return r;
+        log.fine("calling createResource(" + resourceName + ", " + libraryName + ")");
+        if(getResourceResolver() == null)
+        {
+            log.fine("ResourceResolver is NULL!!!!");
+            return getWrapped().createResource(resourceName, libraryName);
+        }
+        ResolverResult result = getResourceResolver().getResourceURL(libraryName, resourceName);
+        if(result.getType().equals(ResolverResult.TYPE.NOT_MANAGED))
+        {
+            return getWrapped().createResource(resourceName, libraryName);
+        }
+        if(result.getType().equals(ResolverResult.TYPE.EXCLUDED))
+        {
+            return null;
+        }
+        if(result.getType().equals(ResolverResult.TYPE.ABSOLUTE))
+        {
+            return new JRRResourceWrapper(getWrapped().createResource(resourceName, libraryName), result.getUrl());
+        }
+        throw new IllegalStateException("We should never be here anyway.");
     }
 
     @Override
     public Resource createResource(String resourceName, String libraryName, String contentType) {
-        Resource r = super.createResource(resourceName, libraryName, contentType);
-//        System.out.println("Resource createResource(String resourceName, String libraryName, String contentType) = (" + resourceName +"," + libraryName + "," + contentType + ")");
+        log.fine("calling createResource(" + resourceName + ", " + libraryName + "," + contentType + ")");
+        Resource r = getWrapped().createResource(resourceName, libraryName, contentType);
         return r;
     }
 
     @Override
     public boolean libraryExists(String libraryName) {
-        boolean result = super.libraryExists(libraryName);
+        log.fine("calling libraryExists : " + libraryName);
+        return getWrapped().libraryExists(libraryName);
+    }
 
-//        System.out.println("library " + libraryName + " does " + (result?"not":"") + " exist");
+    /**
+     * Not so nice workaround, because the ResourceResolver might
+     * not be in the ServletContext when the class is created.
+     * @return
+     */
+    private PrimitiveResourceResolver getResourceResolver() {
+        if(resourceResolver == null)
+            resourceResolver = (PrimitiveResourceResolver) ctx.getAttribute(Constants.CONTEXT_RESOURCE_RESOLVER_ATTRIBUTE_NAME);
 
-        return result;
+        return resourceResolver;
     }
 }
