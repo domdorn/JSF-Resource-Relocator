@@ -7,6 +7,7 @@ import com.dominikdorn.jrr.exceptions.ConfigurationException;
 import com.dominikdorn.jrr.exceptions.ConfigurationIOException;
 import com.dominikdorn.jrr.exceptions.ConfigurationNotFoundException;
 import com.dominikdorn.jrr.exceptions.ConfigurationParsingException;
+import com.dominikdorn.jrr.jsf.PrimitiveResourceResolver;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -15,9 +16,8 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 /**
- * Dominik Dorn
- * 0626165
- * dominik.dorn@tuwien.ac.at
+ * This ServletListener initializes the JSF Resource Resolver and
+ * registers the objects in the ServletContext.
  */
 public class JRRServletListener implements ServletContextListener {
 
@@ -30,28 +30,33 @@ public class JRRServletListener implements ServletContextListener {
         try{
             configurationURL = servletContextEvent.getServletContext().getResource(Constants.CONFIGURATION_FILE);
             Relocator relocator = RelocatorFactory.getRelocator(configurationURL);
-            servletContextEvent.getServletContext().setAttribute(Constants.CONTEXT_ATTRIBUTE_NAME, relocator);
+            PrimitiveResourceResolver resourceResolver = new PrimitiveResourceResolver(relocator);
+
+            servletContextEvent.getServletContext().setAttribute(Constants.CONTEXT_RELOCATOR_ATTRIBUTE_NAME, relocator);
+            servletContextEvent.getServletContext().setAttribute(Constants.CONTEXT_RESOURCE_RESOLVER_ATTRIBUTE_NAME, resourceResolver);
         }
         catch (ConfigurationIOException e) {
             log.warning("Failed to load configuration file.");
             e.printStackTrace();
         } catch (ConfigurationParsingException e) {
             log.warning("Failed to parse the Configuration file " + Constants.CONFIGURATION_FILE + "" +
-                    "Please check the syntax using the XSD"
+                    "Please check the syntax using the XSD."
             );
         } catch (ConfigurationNotFoundException e) {
-            log.info("JSF Resource Relocator not loaded: Configuration file WEB-INF/jsf-resource-relocator.xml is missing.");
+            log.warning("JSF Resource Relocator not loaded: Configuration file WEB-INF/jsf-resource-relocator.xml is missing.");
         }
         catch (ConfigurationException e)
         {
             log.info("Catched a general ConfigurationException. ");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("This should never happen, " +
+                    "as the URL to the configuration file is hardcoded into the source.", e);
         }
 
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().removeAttribute(Constants.CONTEXT_ATTRIBUTE_NAME);
+        servletContextEvent.getServletContext().removeAttribute(Constants.CONTEXT_RELOCATOR_ATTRIBUTE_NAME);
+        servletContextEvent.getServletContext().removeAttribute(Constants.CONTEXT_RESOURCE_RESOLVER_ATTRIBUTE_NAME);
     }
 }
