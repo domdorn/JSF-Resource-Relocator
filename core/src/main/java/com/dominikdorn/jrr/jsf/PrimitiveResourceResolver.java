@@ -1,5 +1,6 @@
 package com.dominikdorn.jrr.jsf;
 
+import com.dominikdorn.jrr.core.ResolverResult;
 import com.dominikdorn.jrr.core.domain.*;
 
 /**
@@ -15,7 +16,7 @@ public class PrimitiveResourceResolver {
     }
 
 
-    public String getResourceURL(String libraryId, String resourceName) {
+    public ResolverResult getResourceURL(String libraryId, String resourceName) {
         if (libraryId == null || resourceName == null || libraryId.isEmpty() || resourceName.isEmpty())
             throw new NullPointerException();
 
@@ -36,7 +37,7 @@ public class PrimitiveResourceResolver {
         {
             l = getLibrary(relocator, libraryId);
             if(l == null)
-                return null;
+                return ResolverResult.notManaged();
         }
         else
         {
@@ -51,12 +52,12 @@ public class PrimitiveResourceResolver {
                     return null;
                 if(le instanceof ResourceLibraryEntry)
                     if( ((ResourceLibraryEntry) le).getAbsoluteUrl() != null)
-                        return ((ResourceLibraryEntry) le).getAbsoluteUrl();
+                        return ResolverResult.foundAbsolute(((ResourceLibraryEntry) le).getAbsoluteUrl());
 
             }
 
             if(le == null)
-                return null;
+                return ResolverResult.excluded();
 
             l = le.getParent();
 
@@ -65,9 +66,9 @@ public class PrimitiveResourceResolver {
 
         Mirror m = getMirrorForLibrary(relocator, l.getId());
         if (m == null)
-            return null;
+            return ResolverResult.notManaged();
 
-        return m.getBasePath() + "/" +l.getId() +"/" + resourceName;
+        return ResolverResult.foundAbsolute(m.getBasePath() + "/" +l.getId() +"/" + resourceName);
 
 
 
