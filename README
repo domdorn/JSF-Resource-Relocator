@@ -52,9 +52,13 @@ Such an entry looks like this in your web.xml
 
 <web-app ...>
 ... 
+<listener>
+    <listener-class>com.dominikdorn.jrr.servlet.JRRServletListener</listener-class>
+</listener>
+
 <servlet>
 	<servlet-name>JSF-Resource-Relocator</serlet-name>
-	<servlet-class>TODO</servlet-class>
+	<servlet-class>com.dominikdorn.jrr.servlet.RemoteServlet</servlet-class>
 </servlet>
 ...
 <servlet-mapping>
@@ -71,7 +75,13 @@ if this file isn't found during application startup, the
 library will be disabled. 
 
 The /WEB-INF/jsf-resource-relocator.xml should have the following header
-TODO
+<?xml version="1.0" encoding="UTF-8"?>
+<relocator
+        xmlns="http://opentck.org/jsf-resource-relocater"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd"
+        >
 
 which allows your IDE of choice (I personally use IntelliJ Idea) to automatically
 lookup the correct syntax and provide you with autocompletion.
@@ -93,10 +103,10 @@ The update-configuration option looks like this
 
 <relocator>
 ....
-<remote-update enabled="true">
+<update enabled="true">
 	<user>admin</user>
 	<pass>jsf-resource-relocator</pass>
-</remote-update>
+</update>
 ...
 </relocator>
 
