@@ -80,7 +80,8 @@ The /WEB-INF/jsf-resource-relocator.xml should have the following header
         xmlns="http://opentck.org/jsf-resource-relocater"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="
-        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd"
+        http://opentck.org/jsf-resource-relocater http://opentck.org/jsf-resource-relocator/schemas/1_0.xsd
+"
         >
 
 which allows your IDE of choice (I personally use IntelliJ Idea) to automatically
