@@ -34,7 +34,7 @@ Maven Dependency Entry:
 
 or download it from 
 http://github.com/domdorn/JSF-Resource-Relocator/downloads
-
+(if downloading manually, you'll also need to add commons-digester version >= 2.1 to your webapp)
 
 
 2. Registering with JSF
