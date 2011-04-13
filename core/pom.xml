@@ -47,5 +47,7 @@
 
 
     </dependencies>
-
+    <build>
+    <finalName>jrr-${artifactId}-${version}</finalName>
+    </build>
 </project>
